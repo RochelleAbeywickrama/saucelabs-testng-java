@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertTrue;
@@ -22,8 +23,8 @@ public class TestSauceLabs {
 
     private WebDriver driver;
 
-    public static final String USERNAME = "udaramanupriya";
-    public static final String ACCESS_KEY = "78a746db-b5d8-40d6-90d0-5623837af2e8";
+    public static final String USERNAME = "rochelle_abeywickrama";
+    public static final String ACCESS_KEY = "ebe60356-1df4-47b8-93ec-29431d1de934";
 
     public static final DesiredCapabilities CAPABILITIES = new DesiredCapabilities();
 
@@ -37,21 +38,23 @@ public class TestSauceLabs {
                 {"Windows 10", "81.0", "chrome"},
                 {"Windows 10", "76.0", "firefox"},
                 {"Windows 10", "11.0", "internet explorer"},
-                {"Windows 10", "81.0", "edge"},
-                {"macOS 10.13", "13.0", "safari"}
+                {"Windows 10", "81.0", "MicrosoftEdge"},
+                {"macOS 10.15", "13.0", "safari"}
         };
     }
 
     /* Set desired capabilities*/
     public void setCapabilities(String platform, String version, String browser) {
 
+        Date date = new Date();
+
         CAPABILITIES.setCapability("username", USERNAME);
         CAPABILITIES.setCapability("accessKey", ACCESS_KEY);
         CAPABILITIES.setCapability("browserName", browser);
         CAPABILITIES.setCapability("platform", platform);
         CAPABILITIES.setCapability("version", version);
-//      capabilities.setCapability("build", "Onboarding Sample App - Java-TestNG");
-        CAPABILITIES.setCapability("name", getClass().getSimpleName());
+        CAPABILITIES.setCapability("build", "SauceLabs - Selenium - Java");
+        CAPABILITIES.setCapability("name", getClass().getSimpleName() + " - " +platform+"_"+browser+"_"+version);
         System.out.println(" Execution Started in - OS - " + platform + " | Browser - " + browser + " | Version - " + version);
     }
 
