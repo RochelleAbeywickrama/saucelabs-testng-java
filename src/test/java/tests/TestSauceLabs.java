@@ -1,8 +1,5 @@
 package tests;
 
-import pageObjects.HomePage;
-import pageObjects.LoginPage;
-
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -11,9 +8,13 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import pageObjects.HomePage;
+import pageObjects.LoginPage;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -46,15 +47,18 @@ public class TestSauceLabs {
     /* Set desired capabilities*/
     public void setCapabilities(String platform, String version, String browser) {
 
+        /* To identify when the execution happened */
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
         Date date = new Date();
 
+        /* Set the requried capabilities */
         CAPABILITIES.setCapability("username", USERNAME);
         CAPABILITIES.setCapability("accessKey", ACCESS_KEY);
         CAPABILITIES.setCapability("browserName", browser);
         CAPABILITIES.setCapability("platform", platform);
         CAPABILITIES.setCapability("version", version);
-        CAPABILITIES.setCapability("build", "SauceLabs - Selenium - Java");
-        CAPABILITIES.setCapability("name", getClass().getSimpleName() + " - " +platform+"_"+browser+"_"+version);
+        CAPABILITIES.setCapability("build", "Test Build - " + dateFormat.format(date));
+        CAPABILITIES.setCapability("name", getClass().getSimpleName() + " - " + platform + "_" + browser + "_" + version);
         System.out.println(" Execution Started in - OS - " + platform + " | Browser - " + browser + " | Version - " + version);
     }
 
@@ -81,7 +85,7 @@ public class TestSauceLabs {
         assertTrue(loginPage.getAlertText().contains("You logged into a secure area!"), "Alert text is incorrect");
     }
 
-
+    /* Posting the Pass / Failed  status to the saucelab job */
     @AfterMethod
     public void cleanUpAfterTestMethod(ITestResult result) {
         ((JavascriptExecutor) driver).executeScript("sauce:job-result=" + (result.isSuccess() ? "passed" : "failed"));
